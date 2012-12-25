@@ -35,8 +35,6 @@ if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option('--key', dest='key',
         help='pocket apps consumer key')
-    parser.add_option('--access-token', '-t', dest='token',
-        help='pocket apps consumer key')
     (options, args) = parser.parse_args()
 
     config = auth(options)
