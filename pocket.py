@@ -1,48 +1,41 @@
 import json
 import sys
-
-from optparse import OptionParser
-
 import requests
 
-from auth import auth
-
 RETRIEVE_URL = "https://getpocket.com/v3/get"
+SEND_URL = "https://getpocket.com/v3/send"
 
 
-def retrieve(config):
+def retrieve(config, verbose=False):
+    if verbose:
+        config["detailType"] = 'complete'
     response = requests.get(RETRIEVE_URL, params=config)
     items = response.json()['list']
     return items
 
 
-def explore(item):
-    linefeed = raw_input("Enter n to continue to next item:")
-    while linefeed != 'n':
-        if linefeed == 'keys':
-            print item.keys()
-        else:
-            if linefeed in item:
-                print item[linefeed]
-        linefeed = raw_input("Enter n to continue to next item:")
+def modify(config):
+    if 'actions' not in config:
+        raise Exception('Actions are not in the request body')
+    headers = {'content-type': 'application/json',
+        'X-Accept': 'application/json'}
+    payload = json.dumps(config)
+    response = requests.post(SEND_URL, headers=headers, data=payload)
+    if response.status_code != 200:
+        print "Returned Status Code %d: %s" % (response.status_code,
+        response.content)
+        sys.exit(1)
+    return response
 
 
-def print_item(item, columns=['resolved_title', 'given_url'], delimiter='\t'):
-    values = [ item[k] for k in columns ]
-    print delimiter.join(values)
+def add_tags(config, item_ids, tags):
+    actions = []
 
+    for item_id in item_ids:
+        action = {"action": "tags_add", "item_id": item_id, "tags": tags}
+        actions.append(action)
 
-def simple_explore(items, func=explore):
-    for key, item in items.iteritems():
-        func(item)
-
-
-if __name__ == "__main__":
-    parser = OptionParser()
-    parser.add_option('--key', dest='key',
-        help='pocket apps consumer key')
-    (options, args) = parser.parse_args()
-
-    config = auth(options)
-    items = retrieve(config)
-    simple_explore(items, func=print_item)
+    config["actions"] = actions
+    response = modify(config)
+    body = response.json()
+    assert(body["status"] == 1)
