@@ -1,6 +1,10 @@
+import requests
+import sys
 import json
 
-AUTH_URL = "https://getpocket.com/auth/authorize?request_token=%s&redirect_uri=%s"
+
+AUTH_URL = ("https://getpocket.com/auth/authorize?"
+        "request_token=%s&redirect_uri=%s")
 REQUEST_TOKEN_URL = "https://getpocket.com/v3/oauth/request"
 AUTH_TOKEN_URL = "https://getpocket.com/v3/oauth/authorize"
 REDIRECT_URL = "http://www.richydelaney.com/success/"
@@ -21,7 +25,7 @@ def auth(options):
     if not access_token:
         access_token, username = access_token_flow(consumer_key)
 
-    config = {'consumer_key':consumer_key, 'access_token': access_token}
+    config = {'consumer_key': consumer_key, 'access_token': access_token}
     write_config(**config)
     return config
 

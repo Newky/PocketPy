@@ -18,6 +18,7 @@ def has_tag(item, tag):
         else:
             return True
 
+
 def isolate_long_articles(items, long_word_count=5000):
     uids = []
 
