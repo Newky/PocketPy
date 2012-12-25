@@ -15,10 +15,6 @@ def retrieve(config):
     items = response.json()['list']
     return items
 
-def simple_explore(items):
-    for key, item in items.iteritems():
-        explore(item)
-
 
 def explore(item):
     linefeed = raw_input("Enter n to continue to next item:")
@@ -31,6 +27,16 @@ def explore(item):
         linefeed = raw_input("Enter n to continue to next item:")
 
 
+def print_item(item, columns=['resolved_title', 'given_url'], delimiter='\t'):
+    values = [ item[k] for k in columns ]
+    print delimiter.join(values)
+
+
+def simple_explore(items, func=explore):
+    for key, item in items.iteritems():
+        func(item)
+
+
 if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option('--key', dest='key',
@@ -39,4 +45,4 @@ if __name__ == "__main__":
 
     config = auth(options)
     items = retrieve(config)
-    simple_explore(items)
+    simple_explore(items, func=print_item)
