@@ -36,16 +36,25 @@ def isolate_long_articles(items, long_word_count=5000):
     return uids
 
 
+def tag_long_articles(credentials, items):
+    uids = isolate_long_articles(items)
+    if len(uids) > 0:
+        add_tags(credentials, uids, ["long"])
+
+    return len(uids)
+
 if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option('--key', dest='key',
         help='pocket apps consumer key')
+    parser.add_option('--longs', dest='longs', action='store_true',
+        default=False, help='tag untagged long articles')
     (options, args) = parser.parse_args()
 
     config = auth(options)
     credentials = copy.deepcopy(config)
     items = retrieve(config, verbose=True)
-    uids = isolate_long_articles(items)
 
-    if len(uids) > 0:
-        add_tags(credentials, uids, ["long"])
+    if options.longs:
+        affected = tag_long_articles(credentials, items)
+        print "Tagged %d long articles" % (affected)
