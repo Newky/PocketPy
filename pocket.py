@@ -29,6 +29,8 @@ def modify(config):
 
 
 def add_tags(config, item_ids, tags):
+    if len(item_ids) <= 0:
+        return
     actions = []
 
     for item_id in item_ids:

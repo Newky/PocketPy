@@ -1,6 +1,6 @@
+import json
 import requests
 import sys
-import json
 
 
 AUTH_URL = ("https://getpocket.com/auth/authorize?"
