@@ -19,10 +19,11 @@ def auth(options):
         consumer_key = options.key
     else:
         consumer_key, access_token = get_credentials_from_config(jc.read())
-        if not consumer_key:
-            print "Need to provide a consumer key using the .creds config file"
-            print "Or by using the --key command line argument."
-            sys.exit(1)
+
+    if not consumer_key:
+        print "Need to provide a consumer key using the .creds config file"
+        print "Or by using the --key command line argument."
+        sys.exit(1)
 
     if not access_token:
         access_token, username = access_token_flow(consumer_key)
