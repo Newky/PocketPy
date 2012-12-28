@@ -1,0 +1,7 @@
+#!/bin/bash
+cd <insert pwd here>
+# you will need to have set up a virtualenv called env
+source env/bin/activate
+python operators.py --longs --kwords
+cd $OLDPWD
+deactivate
