@@ -1,6 +1,7 @@
-import json
 import requests
 import sys
+
+from jsonconfig import JsonConfig
 
 
 AUTH_URL = ("https://getpocket.com/auth/authorize?"
@@ -12,11 +13,12 @@ CONFIG_FILE = '.creds'
 
 
 def auth(options):
+    jc = JsonConfig(CONFIG_FILE)
     access_token = None
     if options.key:
         consumer_key = options.key
     else:
-        consumer_key, access_token = read_config()
+        consumer_key, access_token = get_credentials_from_config(jc.read())
         if not consumer_key:
             print "Need to provide a consumer key using the .creds config file"
             print "Or by using the --key command line argument."
@@ -25,9 +27,9 @@ def auth(options):
     if not access_token:
         access_token, username = access_token_flow(consumer_key)
 
-    config = {'consumer_key': consumer_key, 'access_token': access_token}
-    write_config(**config)
-    return config
+    jc.config = {'consumer_key': consumer_key, 'access_token': access_token}
+    jc.save()
+    return jc.read()
 
 
 def access_token_flow(consumer_key):
@@ -64,13 +66,6 @@ def get_access_token(consumer_key, code):
     return body["access_token"], body["username"]
 
 
-def read_config():
-    with open(CONFIG_FILE, "rb") as infile:
-        config = json.load(infile)
-        return (config.get('consumer_key', None),
-            config.get('access_token', None))
-
-
-def write_config(**kwargs):
-    with open(CONFIG_FILE, "wb") as outfile:
-        json.dump(kwargs, outfile)
+def get_credentials_from_config(config):
+    return (config.get('consumer_key', None),
+        config.get('access_token', None))
