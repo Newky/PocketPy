@@ -8,7 +8,12 @@ This came from my wanting to have something to do the following:
 
 In order to use the pocket API, you have to register a new pocket app. Do this by following the relevant links in the [developer docs](http://getpocket.com/developer/docs/overview).
 
-Using this consumer key you will get an access token for the user by using the auth function provided by auth.py
+Using this consumer key you will get an access token for the user by running the following:
+
+python auth.py --key=<consumer-key>
+
+Follow the instructions and the program will finish.
+Check your .creds file in the root directory of the project to make sure that it exists and has a consumer key and access token.
 
 There are three files in the repository as follows:
 

@@ -1,6 +1,8 @@
 import requests
 import sys
 
+from optparse import OptionParser
+
 from jsonconfig import JsonConfig
 
 
@@ -70,3 +72,12 @@ def get_access_token(consumer_key, code):
 def get_credentials_from_config(config):
     return (config.get('consumer_key', None),
         config.get('access_token', None))
+
+
+if __name__ == "__main__":
+    parser = OptionParser()
+    parser.add_option('--key', dest='key',
+        help='pocket apps consumer key')
+    (options, args) = parser.parse_args()
+
+    auth(options)
