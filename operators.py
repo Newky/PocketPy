@@ -1,4 +1,5 @@
 import copy
+import re
 
 from optparse import OptionParser
 from auth import auth
@@ -39,13 +40,14 @@ def isolate_long_articles(items, long_word_count=5000):
 
 def isolate_keyword_articles(items, kword, kword_tag):
     uids = []
-
     for uid, item in items.iteritems():
         # get a word count from each item
         title = item.get('resolved_title', None)
         if not title:
             continue
-        if kword in title.lower():
+        word_exp = re.compile(r'\b%s\b' % kword, flags=re.IGNORECASE)
+        match = word_exp.search(title.lower())
+        if match:
             if not has_tag(item, kword_tag):
                 uids.append(uid)
 
