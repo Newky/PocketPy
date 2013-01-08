@@ -4,6 +4,7 @@ import requests
 
 RETRIEVE_URL = "https://getpocket.com/v3/get"
 SEND_URL = "https://getpocket.com/v3/send"
+ADD_URL = "https://getpocket.com/v3/add"
 
 
 def retrieve(config, verbose=False):
@@ -27,17 +28,15 @@ def modify(config):
         sys.exit(1)
     return response
 
-
-def add_tags(config, item_ids, tags):
-    if len(item_ids) <= 0:
-        return
-    actions = []
-
-    for item_id in item_ids:
-        action = {"action": "tags_add", "item_id": item_id, "tags": tags}
-        actions.append(action)
-
-    config["actions"] = actions
-    response = modify(config)
-    body = response.json()
-    assert(body["status"] == 1)
+def add(config):
+    if 'url' not in config:
+        raise Exception('"url" is not in the request body')
+    headers = {'content-type': 'application/json',
+        'X-Accept': 'application/json'}
+    payload = json.dumps(config)
+    response = requests.post(ADD_URL, headers=headers, data=payload)
+    if response.status_code != 200:
+        print "Returned Status Code %d: %s" % (response.status_code,
+        response.content)
+        sys.exit(1)
+    return response

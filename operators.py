@@ -4,21 +4,12 @@ import re
 from optparse import OptionParser
 from auth import auth
 from jsonconfig import JsonConfig
-from pocket import retrieve, add_tags
+from pocket import retrieve
+from tags import add_tags, has_tag
 
 
 def has_long_tag(item):
     return has_tag(item, 'long')
-
-
-def has_tag(item, tag):
-    if "tags" not in item:
-        return False
-    else:
-        if tag not in item["tags"].keys():
-            return False
-        else:
-            return True
 
 
 def isolate_long_articles(items, long_word_count=5000):
