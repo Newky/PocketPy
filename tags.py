@@ -7,8 +7,8 @@ def tag_action(config, item_ids, tags, action):
     actions = []
 
     for item_id in item_ids:
-        action = {"action": action, "item_id": item_id, "tags": tags}
-        actions.append(action)
+        action_obj = {"action": action, "item_id": item_id, "tags": tags}
+        actions.append(action_obj)
 
     config["actions"] = actions
     response = modify(config)

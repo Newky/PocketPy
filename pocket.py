@@ -22,7 +22,7 @@ def modify(config):
         'X-Accept': 'application/json'}
     payload = json.dumps(config)
     response = requests.post(SEND_URL, headers=headers, data=payload)
-    if response.status_code != 200:
+    if response.status_code not in range(200, 299):
         print "Returned Status Code %d: %s" % (response.status_code,
         response.content)
         sys.exit(1)
