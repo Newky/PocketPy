@@ -17,7 +17,7 @@ CONFIG_FILE = '.creds'
 def auth(options):
     jc = JsonConfig(CONFIG_FILE)
     access_token = None
-    if options.key:
+    if getattr(options, "key", False):
         consumer_key = options.key
     else:
         consumer_key, access_token = get_credentials_from_config(jc.read())

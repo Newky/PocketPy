@@ -14,6 +14,6 @@ class JsonConfig:
             self.config = config
             return self.config
 
-    def save(self):
+    def save(self, indent=None):
         with open(self.fname, "wb") as outfile:
-            json.dump(self.config, outfile)
+            json.dump(self.config, outfile, indent=indent)
