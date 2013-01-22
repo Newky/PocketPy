@@ -2,10 +2,10 @@ import copy
 import re
 
 from optparse import OptionParser
-from auth import auth
-from jsonconfig import JsonConfig
-from pocket import retrieve
-from tags import add_tags, has_tag
+from pocketpy.auth import auth
+from pocketpy.jsonconfig import JsonConfig
+from pocketpy.pocket import retrieve
+from pocketpy.tags import add_tags, has_tag
 
 
 def has_long_tag(item):

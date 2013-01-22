@@ -2,10 +2,9 @@ import datetime
 import os
 import time
 
-
-from auth import auth
-from jsonconfig import JsonConfig
-from pocket import retrieve
+from pocketpy.auth import auth
+from pocketpy.jsonconfig import JsonConfig
+from pocketpy.pocket import retrieve
 
 
 JSON_DIRECTORY = "pocket_json/"

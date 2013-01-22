@@ -1,11 +1,11 @@
 import copy
 
 from optparse import OptionParser
-from auth import auth
+from pocketpy.auth import auth
 from hncomments import utils
 
-from pocket import retrieve, add
-from tags import has_tag, remove_tags
+from pocketpy.pocket import retrieve, add
+from pocketpy.tags import has_tag, remove_tags
 
 def find_items_with_comments_tag(items):
     uids = []
