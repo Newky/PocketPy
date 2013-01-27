@@ -31,19 +31,23 @@ def isolate_long_articles(items, long_word_count=5000):
 
 def isolate_keyword_articles(items, kword, kword_tag):
     uids = []
+
     for uid, item in items.iteritems():
-        # get a word count from each item
-        title = item.get('resolved_title', None)
-        if not title:
-            continue
-        word_exp = re.compile(r'\b%s\b' % kword, flags=re.IGNORECASE)
-        match = word_exp.search(title.lower())
-        if match:
-            if not has_tag(item, kword_tag):
-                uids.append(uid)
+        check_for_match(uid, item, kword, kword_tag, uids, "resolved_title")
+        check_for_match(uid, item, kword, kword_tag, uids, "resolved_url")
 
     return uids
 
+
+def check_for_match(uid, item, kword, kword_tag, uids, item_key):
+    item_value = item.get(item_key, None)
+    if not item_value:
+        return
+    word_exp = re.compile(r'\b%s\b' % kword, flags=re.IGNORECASE)
+    match = word_exp.search(item_value.lower())
+    if match:
+        if not has_tag(item, kword_tag):
+            uids.append(uid)
 
 def tag_long_articles(credentials, items):
     uids = isolate_long_articles(items)
