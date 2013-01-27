@@ -1,1 +1,2 @@
 v0.1, Tue Jan 8 -- Initial code of pocketpy to pipi
+v0.1.1, Sun Jan 27 -- Cleanup of the readme, added some changes to the operators script.
