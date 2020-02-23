@@ -1,4 +1,4 @@
-from pocket import modify
+from .pocket import modify
 
 
 def tag_action(config, item_ids, tags, action):
