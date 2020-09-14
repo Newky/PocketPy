@@ -14,6 +14,6 @@ setup(
     install_requires=[
         "HNComments==0.1.1",
         "argparse==1.2.1",
-        "requests==1.0.4",
+        "requests==2.18",
     ],
 )
