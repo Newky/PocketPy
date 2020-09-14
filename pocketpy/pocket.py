@@ -12,8 +12,8 @@ def retrieve(config, verbose=False):
         config["detailType"] = 'complete'
     response = requests.get(RETRIEVE_URL, params=config)
     if response.status_code not in range(200, 299):
-        print "Returned Status Code %d: %s" % (response.status_code,
-        response.content)
+        print("Returned Status Code %d: %s" % (response.status_code,
+        response.content))
         sys.exit(1)
     items = response.json()['list']
     return items
@@ -27,8 +27,8 @@ def modify(config):
     payload = json.dumps(config)
     response = requests.post(SEND_URL, headers=headers, data=payload)
     if response.status_code not in range(200, 299):
-        print "Returned Status Code %d: %s" % (response.status_code,
-        response.content)
+        print("Returned Status Code %d: %s" % (response.status_code,
+        response.content))
         sys.exit(1)
     return response
 
@@ -40,7 +40,7 @@ def add(config):
     payload = json.dumps(config)
     response = requests.post(ADD_URL, headers=headers, data=payload)
     if response.status_code != 200:
-        print "Returned Status Code %d: %s" % (response.status_code,
-        response.content)
+        print("Returned Status Code %d: %s" % (response.status_code,
+        response.content))
         sys.exit(1)
     return response
