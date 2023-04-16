@@ -12,6 +12,6 @@ setup(
     description='A python wrapper and some scripts for communication with pocket api',
     long_description=open('README.txt').read(),
     install_requires=[
-        "requests==2.18",
+        "requests==2.28",
     ],
 )
